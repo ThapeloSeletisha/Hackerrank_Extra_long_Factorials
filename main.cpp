@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-
+#include <string>
 using namespace std;
 
 string ltrim(const string &);
@@ -10,6 +10,19 @@ string rtrim(const string &);
  *
  * The function accepts INTEGER n as parameter.
  */
+
+class BigInt
+{
+private:
+    string number;
+
+public:
+    BigInt();
+    BigInt(string);
+    BigInt operator*(BigInt const &that);
+    BigInt factorial(BigInt n);
+
+};
 
 void extraLongFactorials(int n) {
 
