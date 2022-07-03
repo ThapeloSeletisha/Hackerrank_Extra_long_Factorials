@@ -14,18 +14,31 @@ string rtrim(const string &);
 class BigInt
 {
 private:
-    string number;
+    string mNumber;
 
 public:
     BigInt();
-    BigInt(string);
+    BigInt(string number);
     BigInt operator*(BigInt const &that);
-    BigInt factorial(BigInt n);
+    static BigInt factorial(BigInt n);
+    operator std::string () const;
 
 };
 
-void extraLongFactorials(int n) {
+BigInt::BigInt()
+{
+    mNumber = "0";
+}
 
+BigInt::BigInt(std::string number)
+{
+    mNumber = number;
+}
+
+void extraLongFactorials(int n) {
+    BigInt N = BigInt(to_string(n));
+    BigInt fact = BigInt::factorial(N);
+    cout << string(fact) << endl;
 }
 
 int main()
