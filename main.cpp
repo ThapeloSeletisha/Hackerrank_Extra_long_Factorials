@@ -298,7 +298,7 @@ BigInt BigInt::operator+(int const &that)
 
 BigInt BigInt::operator-(BigInt const &that)
 {
-    string num1, num2, remainder = "", final = "";
+    string num1, num2, remainder = "0", final = "";
     num1 = mNumber;
     num2 = string(that);
     reverse(num2.begin(), num2.end());
@@ -307,13 +307,107 @@ BigInt BigInt::operator-(BigInt const &that)
     length_1 = num1.size();
     length_2 = num2.size();
 
+    if (num1 == num2)
+    {
+        return BigInt(0);
+    }
+    if (num1[length_1 - 1] != '-' && num2[length_2 -1] != '-')
+    {
+        string sign = "";
+        if (*this < that)
+        {
+            sign = "-";
+            string tmpString = num1;
+            int tmpInt = length_1;
+            num1 = num2;
+            length_1 = length_2;
+            num2 = tmpString;
+            length_2 = tmpInt;
+        }
+        for (int i = 0; i < length_1; i++)
+        {
+            if (i < length_2)
+            {
+                next = num1[i] - remainder[0] - num2[i] + '0';
+            }
+            else 
+            {
+                next = num1[i] - remainder[0];
+            }
+            
+            if (next < -10)
+            {
+                remainder = "2";
+                next += 20;
+            }
+            else if (next < 0)
+            {
+                remainder = "1";
+                next += 10;
+            }
+            else 
+            {
+                remainder = "0";
+            }
+            final.append(to_string(next));
+        }
+        final.append(sign);
+    }
+    else if (num1[length_1 - 1] == '-' && num2[length_2 -1] != '-')
+    {
+        reverse(num1.begin(), num1.end());
+        reverse(num2.begin(), num2.end());
+        BigInt positiveFinal = BigInt(num1.substr(1)) + BigInt(num2);
+        reverse(num1.begin(), num1.end());
+        reverse(num2.begin(), num2.end());
 
-    return BigInt();
+        final = "-" + string(positiveFinal);
+
+        reverse(final.begin(), final.end());
+
+
+    }
+    else if (num1[length_1 - 1] != '-' && num2[length_2 -1] == '-')
+    {
+        reverse(num1.begin(), num1.end());
+        reverse(num2.begin(), num2.end());
+        BigInt positiveFinal = BigInt(num1) + BigInt(num2.substr(1));
+        reverse(num1.begin(), num1.end());
+        reverse(num2.begin(), num2.end());
+
+        final = string(positiveFinal);
+
+        reverse(final.begin(), final.end());
+    }
+    else 
+    {
+        reverse(num1.begin(), num1.end());
+        reverse(num2.begin(), num2.end());
+
+        return BigInt(num2.substr(1)) - BigInt(num1.substr(1));
+    }
+
+    reverse(final.begin(), final.end());
+    if (final.size() >= 2)
+    {
+        if (final[0] == '0')
+        {
+            final = final.substr(1);
+        }
+        else if (final.size() >= 3)
+        {
+            if (final.substr(0, 2) == "-0")
+            {
+                final = "-" + final.substr(2);
+            }
+        }
+    }
+    return BigInt(final);
 }
 
 BigInt BigInt::operator-(int const &that)
 {
-    return BigInt();
+    return (*this) - BigInt(that);
 }
 
 void extraLongFactorials(int n) {
@@ -329,13 +423,13 @@ int main()
     d = BigInt("-1111");
     e = BigInt(999);
 
-    cout << (a <= b) << endl;
-    cout << (b <= a) << endl;
-    cout << (b <= b) << endl;
-    cout << (b <= c) << endl;
-    cout << (d <= c) << endl;
-    cout << (c <= c) << endl;
-    cout << (e <= b) << endl;
+    cout << string(a - b) << endl;
+    cout << string(b - a) << endl;
+    cout << string(b - e) << endl;
+    cout << string(c - d) << endl;
+    cout << string(d - c) << endl;
+    cout << string(a - c) << endl;
+    cout << string(c - b) << endl;
     return 0;
 }
 
