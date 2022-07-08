@@ -12,6 +12,19 @@ string rtrim(const string &);
  * The function accepts INTEGER n as parameter.
  */
 
+class ComparisonException : public exception
+{
+private:
+    string mMessage;
+
+public:
+    explicit ComparisonException(const std::string& message)
+        : mMessage(message){}
+    const char* what() const noexcept override {
+        return mMessage.c_str();
+    }
+};
+
 class BigInt
 {
 private:
@@ -24,8 +37,26 @@ public:
 
     operator std::string() const;
 
+    bool operator<(BigInt const &that);
+    bool operator<(int const &that);
+
+    bool operator>(BigInt const &that);
+    bool operator>(int const &that);
+
+    bool operator==(BigInt const &that);
+    bool operator==(int const &that);
+
+    bool operator!=(BigInt const &that);
+    bool operator!=(int const &that);
+
+    bool operator<=(BigInt const &that);
+    bool operator<=(int const &that);
+
     BigInt operator+(BigInt const &that);
     BigInt operator+(int const &that);
+
+    BigInt operator-(BigInt const &that);
+    BigInt operator-(int const &that);
 
 };
 
@@ -53,6 +84,70 @@ BigInt::operator std::string() const
     reverse(number.begin(), number.end());
     return number;
 }
+
+bool BigInt::operator<(BigInt const &that)
+{
+    string num1, num2;
+    num1 = mNumber;
+    num2 = string(that);
+    reverse(num2.begin(), num2.end());
+
+    int length_1, length_2, next;
+    length_1 = num1.size();
+    length_2 = num2.size();
+
+    if (num1[length_1 - 1] != '-' && num2[length_2 - 1] != '-')
+    {
+        if (length_1 < length_2)
+        {
+            return true;
+        }
+        else if (length_1 == length_2)
+        {
+            int last_digit_1 = num1[0];
+            int last_digit_2 = num2[0];
+            return last_digit_1 < last_digit_2;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+    else if (num1[length_1 - 1] == '-' && num2[length_2 - 1] != '-')
+    {
+        return true;
+    }
+    else if (num1[length_1 - 1] != '-' && num2[length_2 - 1] == '-')
+    {
+        return false;
+    }
+    else if (num1[length_1 - 1] == '-' && num2[length_2 - 1] == '-')  
+    {
+        if (length_1 < length_2)
+        {
+            return false;
+        }
+        else if (length_1 == length_2)
+        {
+            int last_digit_1 = num1[0];
+            int last_digit_2 = num2[0];
+            return last_digit_1 > last_digit_2;
+        }
+        else 
+        {
+            return true;
+        }
+    }  
+    throw ComparisonException("Reached end of comparison function");
+    return false;
+}
+
+bool BigInt::operator<(int const &that)
+{
+    return *this < BigInt(that);
+}
+
+
 
 BigInt BigInt::operator+(BigInt const &that)
 {
@@ -123,21 +218,43 @@ BigInt BigInt::operator+(int const &that)
     return *this + BigInt(that);
 }
 
+BigInt BigInt::operator-(BigInt const &that)
+{
+    string num1, num2, remainder = "", final = "";
+    num1 = mNumber;
+    num2 = string(that);
+    reverse(num2.begin(), num2.end());
+
+    int length_1, length_2, next;
+    length_1 = num1.size();
+    length_2 = num2.size();
+
+
+    return BigInt();
+}
+
+BigInt BigInt::operator-(int const &that)
+{
+    return BigInt();
+}
+
 void extraLongFactorials(int n) {
    
 }
 
 int main()
 {
-    BigInt a, b;
+    BigInt a, b, c, d;
     a = BigInt("548034803948039803");
     b = BigInt("999");
+    c = BigInt(-523);
+    d = BigInt("-1111");
 
-    cout << string(a) << endl;
-    cout << string(b) << endl;
-    cout << string(a+b) << endl;
-    cout << string(a + 999) << endl;
-    cout << string(b + 1) << endl;
+    cout << (a < b) << endl;
+    cout << (b < a) << endl;
+    cout << (b < b) << endl;
+    cout << (b < c) << endl;
+    cout << (d < c) << endl;
     return 0;
 }
 
