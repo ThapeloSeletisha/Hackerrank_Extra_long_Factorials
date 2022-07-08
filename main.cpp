@@ -147,7 +147,38 @@ bool BigInt::operator<(int const &that)
     return *this < BigInt(that);
 }
 
+bool BigInt::operator>(BigInt const &that)
+{
+    BigInt negativeThis, negativeThat;
+    if (string(*this)[0] != '-' && string(that)[0] != '-')
+    {
+        negativeThis = BigInt("-" + string(*this));
+        negativeThat = BigInt("-" + string(that));
+    }
+    else if (string(*this)[0] == '-' && string(that)[0] != '-')
+    {
+        negativeThis = BigInt(string(*this).substr(1));
+        negativeThat = BigInt("-" + string(that));
+    }
+    else if (string(*this)[0] != '-' && string(that)[0] == '-')
+    {
+        negativeThis = BigInt("-" + string(*this));
+        negativeThat = BigInt(string(that).substr(1));
+    }
+    else if (string(*this)[0] == '-' && string(that)[0] == '-')
+    {
+        negativeThis = BigInt(string(*this).substr(1));
+        negativeThat = BigInt(string(that).substr(1));
+    }
 
+    return negativeThis < negativeThat;
+    
+}
+
+bool BigInt::operator>(int const &that)
+{
+    return false;
+}
 
 BigInt BigInt::operator+(BigInt const &that)
 {
