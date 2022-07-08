@@ -192,6 +192,16 @@ bool BigInt::operator==(int const &that)
     return *this == BigInt(that);
 }
 
+bool BigInt::operator!=(BigInt const &that)
+{
+    return !((*this) == that);
+}
+
+bool BigInt::operator!=(int const &that)
+{
+    return (*this) != BigInt(that);
+}
+
 BigInt BigInt::operator+(BigInt const &that)
 {
     string num1, num2, remainder = "", final = "";
