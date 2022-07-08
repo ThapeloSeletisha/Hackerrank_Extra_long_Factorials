@@ -64,6 +64,8 @@ public:
     BigInt operator*(BigInt const &that);
     BigInt operator*(int const &that);
 
+    static BigInt factorial(BigInt &n);
+
 };
 
 BigInt::BigInt()
@@ -478,8 +480,21 @@ BigInt BigInt::operator*(int const &that)
     return (*this) * BigInt(that);
 }
 
+BigInt BigInt::factorial(BigInt &n)
+{
+    if (n == BigInt(1) || n == BigInt(0))
+    {
+        return BigInt(1);
+    }
+    BigInt nMinus1 = n - BigInt(1);
+    return n * BigInt::factorial(nMinus1);
+}
+
 void extraLongFactorials(int n) {
-   
+   BigInt N = BigInt(n);
+   BigInt fact = BigInt::factorial(N);
+
+   cout << string(fact) << endl;
 }
 
 int main()
@@ -491,13 +506,12 @@ int main()
     d = BigInt("-1111");
     e = BigInt(999);
 
-    cout << string(a * b) << endl;
-    cout << string(b * a) << endl;
-    cout << string(b * e) << endl;
-    cout << string(c * d) << endl;
-    cout << string(d * c) << endl;
-    cout << string(a * c) << endl;
-    cout << string(c * b) << endl;
+
+    extraLongFactorials(5);
+    extraLongFactorials(0);
+    extraLongFactorials(1);
+    extraLongFactorials(54);
+    extraLongFactorials(99);
     return 0;
 }
 
