@@ -52,6 +52,9 @@ public:
     bool operator<=(BigInt const &that);
     bool operator<=(int const &that);
 
+    bool operator>=(BigInt const &that);
+    bool operator>=(int const &that);
+
     BigInt operator+(BigInt const &that);
     BigInt operator+(int const &that);
 
@@ -202,6 +205,28 @@ bool BigInt::operator!=(int const &that)
     return (*this) != BigInt(that);
 }
 
+bool BigInt::operator<=(BigInt const &that)
+{
+    return ((*this) == that) ||
+        ((*this) < that);
+}
+
+bool BigInt::operator<=(int const &that)
+{
+    return (*this) <= BigInt(that);
+}
+
+bool BigInt::operator>=(BigInt const &that)
+{
+    return ((*this) > that) ||
+        ((*this) == that);
+}
+
+bool BigInt::operator>=(int const &that)
+{
+    return (*this) <= BigInt(that);
+}
+
 BigInt BigInt::operator+(BigInt const &that)
 {
     string num1, num2, remainder = "", final = "";
@@ -304,13 +329,13 @@ int main()
     d = BigInt("-1111");
     e = BigInt(999);
 
-    cout << (a == b) << endl;
-    cout << (b == a) << endl;
-    cout << (b == b) << endl;
-    cout << (b == c) << endl;
-    cout << (d == c) << endl;
-    cout << (c == c) << endl;
-    cout << (e == b) << endl;
+    cout << (a <= b) << endl;
+    cout << (b <= a) << endl;
+    cout << (b <= b) << endl;
+    cout << (b <= c) << endl;
+    cout << (d <= c) << endl;
+    cout << (c <= c) << endl;
+    cout << (e <= b) << endl;
     return 0;
 }
 
