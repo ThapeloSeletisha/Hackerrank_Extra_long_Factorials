@@ -499,33 +499,15 @@ void extraLongFactorials(int n) {
 
 int main()
 {
-    BigInt a, b, c, d, e;
-    a = BigInt("5480356");
-    b = BigInt("999");
-    c = BigInt(-523);
-    d = BigInt("-1111");
-    e = BigInt(999);
+    string n_temp;
+    getline(cin, n_temp);
 
+    int n = stoi(ltrim(rtrim(n_temp)));
 
-    extraLongFactorials(5);
-    extraLongFactorials(0);
-    extraLongFactorials(1);
-    extraLongFactorials(54);
-    extraLongFactorials(99);
+    extraLongFactorials(n);
+
     return 0;
 }
-
-// int main()
-// {
-//     string n_temp;
-//     getline(cin, n_temp);
-
-//     int n = stoi(ltrim(rtrim(n_temp)));
-
-//     extraLongFactorials(n);
-
-//     return 0;
-// }
 
 string ltrim(const string &str) {
     string s(str);
