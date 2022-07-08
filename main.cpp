@@ -177,7 +177,19 @@ bool BigInt::operator>(BigInt const &that)
 
 bool BigInt::operator>(int const &that)
 {
-    return false;
+    return *this > BigInt(that);
+}
+
+bool BigInt::operator==(BigInt const &that)
+{
+    string thisString = string(*this);
+    string thatString = string(that);
+    return thisString == thatString;
+}
+
+bool BigInt::operator==(int const &that)
+{
+    return *this == BigInt(that);
 }
 
 BigInt BigInt::operator+(BigInt const &that)
@@ -275,17 +287,20 @@ void extraLongFactorials(int n) {
 
 int main()
 {
-    BigInt a, b, c, d;
+    BigInt a, b, c, d, e;
     a = BigInt("548034803948039803");
     b = BigInt("999");
     c = BigInt(-523);
     d = BigInt("-1111");
+    e = BigInt(999);
 
-    cout << (a < b) << endl;
-    cout << (b < a) << endl;
-    cout << (b < b) << endl;
-    cout << (b < c) << endl;
-    cout << (d < c) << endl;
+    cout << (a == b) << endl;
+    cout << (b == a) << endl;
+    cout << (b == b) << endl;
+    cout << (b == c) << endl;
+    cout << (d == c) << endl;
+    cout << (c == c) << endl;
+    cout << (e == b) << endl;
     return 0;
 }
 
