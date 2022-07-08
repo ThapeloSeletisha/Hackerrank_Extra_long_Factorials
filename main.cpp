@@ -61,6 +61,9 @@ public:
     BigInt operator-(BigInt const &that);
     BigInt operator-(int const &that);
 
+    BigInt operator*(BigInt const &that);
+    BigInt operator*(int const &that);
+
 };
 
 BigInt::BigInt()
@@ -410,6 +413,71 @@ BigInt BigInt::operator-(int const &that)
     return (*this) - BigInt(that);
 }
 
+BigInt BigInt::operator*(BigInt const &that)
+{
+    string num1, num2, sign, prod;
+    BigInt final = BigInt(0);
+    num1 = mNumber;
+    num2 = string(that);
+    reverse(num2.begin(), num2.end());
+
+    int length_1, length_2, next;
+    length_1 = num1.size();
+    length_2 = num2.size();
+
+    if (num1[length_1 - 1] == '-' && num2[length_2 - 1] == '-')
+    {
+        sign = "";
+        num1 = num1.substr(0, length_1 - 1);
+        num2 = num2.substr(0, length_2 - 1);
+        length_1--;
+        length_2--;
+    }
+    else if (num1[length_1 - 1] == '-' && num2[length_2 - 1] != '-')
+    {
+        sign = "-";
+        num1 = num1.substr(0, length_1 - 1);
+        length_1--;
+    }
+    else if (num1[length_1 - 1] != '-' && num2[length_2 - 1] == '-')
+    {
+        sign = "-";
+        num2 = num2.substr(0, length_2 - 1);
+        length_2--;
+    }
+    else
+    {
+        sign = "";
+    }
+
+    for (int i = 0; i < length_1; i++)
+    {
+        for (int j = 0; j < length_2; j++)
+        {
+            next = (num1[i] - '0') * 
+                (num2[j] - '0');
+            prod = to_string(next);
+            for (int k = 0; k < i + j; k++)
+            {
+                prod += "0";
+            }
+            final = final + BigInt(prod);
+        }
+    }
+
+    if (sign == "-")
+    {
+        final = final - final - final;
+    }
+    return final;
+    
+}
+
+BigInt BigInt::operator*(int const &that)
+{
+    return (*this) * BigInt(that);
+}
+
 void extraLongFactorials(int n) {
    
 }
@@ -417,19 +485,19 @@ void extraLongFactorials(int n) {
 int main()
 {
     BigInt a, b, c, d, e;
-    a = BigInt("548034803948039803");
+    a = BigInt("5480356");
     b = BigInt("999");
     c = BigInt(-523);
     d = BigInt("-1111");
     e = BigInt(999);
 
-    cout << string(a - b) << endl;
-    cout << string(b - a) << endl;
-    cout << string(b - e) << endl;
-    cout << string(c - d) << endl;
-    cout << string(d - c) << endl;
-    cout << string(a - c) << endl;
-    cout << string(c - b) << endl;
+    cout << string(a * b) << endl;
+    cout << string(b * a) << endl;
+    cout << string(b * e) << endl;
+    cout << string(c * d) << endl;
+    cout << string(d * c) << endl;
+    cout << string(a * c) << endl;
+    cout << string(c * b) << endl;
     return 0;
 }
 
